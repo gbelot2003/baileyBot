@@ -32,7 +32,7 @@
                 <tbody>
                     @foreach ($productos as $producto)
                     <tr>
-                        <td><img class="img img-thumbnail" src="{{ $producto->image_url }}" alt="{{ $producto->name }}"></td>
+                        <td><img width="200" class="img img-thumbnail" src="{{ $producto->image_url }}" alt="{{ $producto->name }}"></td>
                         <td>{{ $producto->name }}</td>
                         <td>Lps. {{ number_format($producto->price, 2, '.', '') }}</td>
                     </tr>
