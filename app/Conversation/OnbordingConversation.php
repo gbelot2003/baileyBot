@@ -8,28 +8,27 @@ use BotMan\BotMan\Messages\Conversations\Conversation;
 class OnbordingConversation extends Conversation
 {
     protected $firstname;
-
     protected $email;
 
     public function Welcome()
     {
-        return $this->ask('Hello! What is your firstname?', function(Answer $answer) {
+        $this->ask('Para una mejor atención,¿Cual es su nombre completo?', function(Answer $answer) {
             // Save result
-            \Log::info($answer);
             $this->firstname = $answer->getText();
 
-            $this->say('Nice to meet you '.$this->firstname);
-            $this->askEmail();
+            $this->say("Mucho gusto {$this->firstname}, ¿En que podemos ayudarte hoy?");
+            $this->showMenu();
         });
     }
 
-    public function askEmail()
+    public function showMenu()
     {
-        $this->ask('One more thing - what is your email?', function(Answer $answer) {
-            // Save result
-            $this->email = $answer->getText();
+        $this->ask("Presiona 1 para Cotizaciones, 2 para envio de mensaje a gerencia", function(Answer $answer) {
+            $seleccion = $answer->getText();
+            if($seleccion === "1") {
 
-            $this->say('Great - that is all we need, '.$this->firstname);
+                $this->bot->startConversation(new CotizacionConversation($this->firstname));
+            }
         });
     }
 

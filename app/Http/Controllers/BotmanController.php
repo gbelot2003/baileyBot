@@ -19,8 +19,6 @@ class BotmanController extends Controller
      */
     public function handle()
     {
-        //$doctrineCacheDriver = new \Doctrine\Common\Cache\PhpFileCache('cache'); // 'cache' is the cache folder that you want to use
-
         $botman = BotManFactory::create([
             'config' => [
                 'user_cache_time' => 30000,
@@ -30,7 +28,8 @@ class BotmanController extends Controller
 
         DriverManager::loadDriver(WebDriver::class);
 
-        $botman->hears('Hello', function($bot) {
+        $botman->hears('{message}', function($bot, $message) {
+            $bot->reply('Benvenido a nuestro sistema de atención');
             $bot->startConversation(new OnbordingConversation());
         });
 
