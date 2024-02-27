@@ -2,41 +2,39 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use BotMan\BotMan\Messages\Incoming\Answer;
+use config;
+use BotMan\BotMan\BotManFactory;
+use BotMan\Drivers\Web\WebDriver;
+use BotMan\BotMan\Cache\LaravelCache;
+use BotMan\BotMan\Drivers\DriverManager;
+use App\Conversation\OnbordingConversation;
+
+
 
 class BotmanController extends Controller
 {
+
     /**
      * Place your BotMan logic here.
      */
     public function handle()
     {
-        $botman = app('botman');
+        //$doctrineCacheDriver = new \Doctrine\Common\Cache\PhpFileCache('cache'); // 'cache' is the cache folder that you want to use
 
-        $botman->hears('{message}', function ($botman, $message) {
+        $botman = BotManFactory::create([
+            'config' => [
+                'user_cache_time' => 30000,
+                'conversation_cache_time' => 30000,
+            ],
+        ], new LaravelCache());
 
-            if ($message == 'hi') {
-                $this->askName($botman);
-            } else {
-                $botman->reply("Start a conversation by saying hi.");
-            }
+        DriverManager::loadDriver(WebDriver::class);
 
+        $botman->hears('Hello', function($bot) {
+            $bot->startConversation(new OnbordingConversation());
         });
 
         $botman->listen();
-    }
 
-    /**
-     * Place your BotMan logic here.
-     */
-    public function askName($botman)
-    {
-        $botman->ask('Hello! What is your Name?', function (Answer $answer, $botman) {
-
-            $name = $answer->getText();
-
-            $this->say('Nice to meet you ' . $name);
-        });
     }
 }

@@ -12,7 +12,8 @@
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
-        "orangehill/iseed": "^3.0"
+        "orangehill/iseed": "^3.0",
+        "symfony/cache": "^7.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
