@@ -17,6 +17,7 @@ return new class extends Migration
             $table->enum('tag', ['camas', 'sillas', 'miselaneos']);
             $table->text('description');
             $table->double("price", 8, 2);
+            $table->string('image_url');
             $table->timestamps();
         });
     }
