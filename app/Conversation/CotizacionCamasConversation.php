@@ -7,8 +7,9 @@ use App\Mail\SendCotizacion;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use BotMan\BotMan\Messages\Incoming\Answer;
+use BotMan\BotMan\Messages\Attachments\Image;
+use BotMan\BotMan\Messages\Outgoing\OutgoingMessage;
 use BotMan\BotMan\Messages\Conversations\Conversation;
-
 
 class CotizacionCamasConversation extends Conversation
 {
@@ -28,23 +29,50 @@ class CotizacionCamasConversation extends Conversation
 
         $this->bot->typesAndWaits(2);
         $this->say("Tenemos {$countCamas} tipos de camas a disposición en este momento");
+        $this->bot->typesAndWaits(2);
+        $this->ask('Si desea le puedo mostrar las camas disponibles para ello, <strong>marque 1</strong> o le puedo enviar por correo electrónico la cotización, para esto <strong>marque 2</strong>', function (Answer $answer) use ($itemsCamas){
+            $respuesta = $answer->getText();
+            if($respuesta == '1'){
+                $this->listarProductos($itemsCamas);
+            }
 
-        // $this->bot->typesAndWaits(2);
-        // $this->ask("¿A que correo electronico le enviamos su cotización?", function (Answer $answer){
+            if($respuesta == '2'){
+                $this->getEmail();
+            }
+        });
+    }
 
-        //     $validator = Validator::make(['email' => $answer->getText()], [
-        //         'email' => 'email',
-        //     ]);
 
-        //     if ($validator->fails()) {
-        //         $this->bot->typesAndWaits(2);
-        //         return $this->repeat('Ese no parece un correo valido, intente de nuevo');
-        //     }
+    protected function listarProductos($items)
+    {
+        foreach($items as $item) {
+            $this->bot->typesAndWaits(3);
+            $attachment = new Image($item->image_url);
 
-        //     $this->email = $answer->getText();
+            $message = OutgoingMessage::create($item->name)
+                        ->withAttachment($attachment);
 
-        //     $this->confirmarCorreo();
-        // });
+            $this->bot->reply($message);
+        }
+        $this->bot->typesAndWaits(2);
+        $this->bot->startConversation(new ShowMenuConversation($this->firstName));
+    }
+
+    public function getEmail()
+    {
+        $this->ask("Perfecto, le enviaremos la cotización a su correo, escriba la <strong>dirección electrónica</strong> por favor:", function (Answer $answer){
+            $validator = Validator::make(['email' => $answer->getText()], [
+                'email' => 'email',
+            ]);
+
+            if($validator->fails()) {
+                $this->bot->typesAndWaits(2);
+                return $this->repeat('Ese no parece un correo valido, intente de nuevo');
+            }
+
+            $this->email = $answer->getText();
+            $this->confirmarCorreo();
+        });
     }
 
     public function confirmarCorreo()
