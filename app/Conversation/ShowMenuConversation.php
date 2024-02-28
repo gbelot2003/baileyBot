@@ -17,10 +17,11 @@ class ShowMenuConversation extends Conversation
 
     public function showMenu()
     {
+        sleep(2);
+        $this->say("INICIO DE MENU PRINCIPAL");
         $this->ask("Presiona 1 para Cotizaciones, 2 para envio de mensaje a gerencia", function(Answer $answer) {
             $seleccion = $answer->getText();
             if($seleccion === "1") {
-
                 $this->bot->startConversation(new CotizacionConversation($this->firstName));
             }
         });

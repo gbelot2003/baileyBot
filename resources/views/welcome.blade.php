@@ -12,8 +12,9 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/assets/css/chat.min.css">
     <script>
         var botmanWidget = {
-            aboutText: 'Start the conversation with Hi',
-            introMessage: "WELCOME TO ALL ABOUT LARAVEL"
+            aboutText: 'Sistema de Consultas',
+            introMessage: "Bienvenido al sistema interactivo de consultas, Pregunta para iniciar conversación",
+            title:'Charlie Bot',
         };
     </script>
 

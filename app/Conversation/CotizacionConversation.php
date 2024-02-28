@@ -68,6 +68,7 @@ class CotizacionConversation extends Conversation
         $getCamas = Product::where("tag", 'LIKE', "%camas%")->get();
         Mail::to($this->email)->send(new SendCotizacion($getCamas, $this->firstName));
         $this->say("Se ha enviado el listado de productos a tu correo");
+        $this->say("Cualquier otra pregunta estamos para servirte...");
         $this->bot->startConversation(new ShowMenuConversation($this->firstName));
     }
 
