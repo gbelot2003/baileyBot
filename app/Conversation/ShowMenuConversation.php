@@ -18,9 +18,9 @@ class ShowMenuConversation extends Conversation
     public function showMenu()
     {
         $this->bot->typesAndWaits(2);
-        $this->say("INICIO DE MENU PRINCIPAL");
+        $this->say("<strong>INICIO DE MENU PRINCIPAL</strong>");
         $this->bot->typesAndWaits(2);
-        $this->ask("Presiona 1 para Cotizaciones, 2 para envio de mensaje a gerencia", function(Answer $answer) {
+        $this->ask("Presiona <strong>1</strong> para <strong>Cotizaciones</strong>, <strong>2</strong> para <strong>envio de mensaje a gerencia</strong>", function(Answer $answer) {
             $seleccion = $answer->getText();
             if($seleccion === "1") {
                 $this->bot->typesAndWaits(2);

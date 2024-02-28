@@ -24,24 +24,27 @@ class CotizacionCamasConversation extends Conversation
     public function cotizarCamas()
     {
         $countCamas = Product::where("tag", 'LIKE', "%camas%")->count();
+        $itemsCamas = Product::where("tag", "LIKE", "%camas%")->get();
+
         $this->bot->typesAndWaits(2);
         $this->say("Tenemos {$countCamas} tipos de camas a disposición en este momento");
-        $this->bot->typesAndWaits(2);
-        $this->ask("¿A que correo electronico le enviamos su cotización?", function (Answer $answer){
 
-            $validator = Validator::make(['email' => $answer->getText()], [
-                'email' => 'email',
-            ]);
+        // $this->bot->typesAndWaits(2);
+        // $this->ask("¿A que correo electronico le enviamos su cotización?", function (Answer $answer){
 
-            if ($validator->fails()) {
-                $this->bot->typesAndWaits(2);
-                return $this->repeat('Ese no parece un correo valido, intente de nuevo');
-            }
+        //     $validator = Validator::make(['email' => $answer->getText()], [
+        //         'email' => 'email',
+        //     ]);
 
-            $this->email = $answer->getText();
+        //     if ($validator->fails()) {
+        //         $this->bot->typesAndWaits(2);
+        //         return $this->repeat('Ese no parece un correo valido, intente de nuevo');
+        //     }
 
-            $this->confirmarCorreo();
-        });
+        //     $this->email = $answer->getText();
+
+        //     $this->confirmarCorreo();
+        // });
     }
 
     public function confirmarCorreo()
