@@ -2,8 +2,10 @@
 
 namespace App\Conversation;
 
+use Log;
 use App\Models\Product;
 use App\Mail\SendCotizacion;
+use PHPUnit\Framework\Exception;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use BotMan\BotMan\Messages\Incoming\Answer;
@@ -15,17 +17,19 @@ class CotizacionCamasConversation extends Conversation
 {
     protected $firstName;
     protected $email;
+    protected $productos;
 
 
     public function __construct($firstName)
     {
         $this->firstName = $firstName;
+        $this->productos = new Product();
     }
 
     public function cotizarCamas()
     {
-        $countCamas = Product::where("tag", 'LIKE', "%camas%")->count();
-        $itemsCamas = Product::where("tag", "LIKE", "%camas%")->get();
+        $countCamas = $this->productos->where("tag", 'LIKE', "%camas%")->count();
+        $itemsCamas = $this->productos->where("tag", "LIKE", "%camas%")->get();
 
         $this->bot->typesAndWaits(2);
         $this->say("Tenemos {$countCamas} tipos de camas a disposición en este momento");
@@ -42,20 +46,34 @@ class CotizacionCamasConversation extends Conversation
         });
     }
 
-
     protected function listarProductos($items)
     {
         foreach($items as $item) {
             $this->bot->typesAndWaits(3);
             $attachment = new Image($item->image_url);
 
-            $message = OutgoingMessage::create($item->name)
+            $message = OutgoingMessage::create("{$item->name} - código <strong>{$item->id}</strong>")
                         ->withAttachment($attachment);
 
             $this->bot->reply($message);
         }
         $this->bot->typesAndWaits(2);
-        $this->bot->startConversation(new ShowMenuConversation($this->firstName));
+        $this->verDetalles();
+    }
+
+    protected function verDetalles()
+    {
+        $this->ask("Si desea el detalle de algun producto, marque el <strong>numero de Código</strong>, si no escriba <strong>menu</strong> para regresar al menu principal.", function (Answer $answer){
+            $respuesta = $answer->getText();
+
+            if($respuesta == "menu"){
+                $this->bot->startConversation(new ShowMenuConversation($this->firstName));
+            }
+
+            $id = (int) $respuesta;
+            $item = $this->productos->findOrFail($id);
+            $this->bot->startConversation(new DetalleProductosConversation($this->firstName, $item));
+        });
     }
 
     public function getEmail()
@@ -101,7 +119,6 @@ class CotizacionCamasConversation extends Conversation
         $this->say("Cualquier otra pregunta estamos para servirte...");
         $this->bot->startConversation(new ShowMenuConversation($this->firstName));
     }
-
 
     public function run()
     {
