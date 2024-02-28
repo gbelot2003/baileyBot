@@ -12,8 +12,7 @@ class OnbordingConversation extends Conversation
 
     public function Welcome()
     {
-        $this->ask('Para una mejor atención,¿Cual es su nombre completo?', function(Answer $answer) {
-           // \Log::info($answer);
+        $this->ask('Para una mejor tu experiencia, ¿Podrias escribir tu nombre? Por favor!!', function(Answer $answer) {
 
             $validator = Validator::make(['name' => $answer->getText()], [
                 'name' => 'required|string',
@@ -24,7 +23,9 @@ class OnbordingConversation extends Conversation
             }
 
             $this->firstname = $answer->getText();
+            $this->bot->typesAndWaits(2);
             $this->say("Mucho gusto {$this->firstname}, ¿En que podemos ayudarte hoy?");
+            $this->bot->typesAndWaits(2);
             $this->bot->startConversation(new ShowMenuConversation($this->firstname));
         });
     }

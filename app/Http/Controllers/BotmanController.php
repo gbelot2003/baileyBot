@@ -31,6 +31,7 @@ class BotmanController extends Controller
         $botman->hears('{message}', function($bot, $message) {
             $bot->typesAndWaits(2);
             $bot->reply('Benvenido a nuestro sistema de atención');
+            $bot->typesAndWaits(2);
             $bot->startConversation(new OnbordingConversation());
         });
 
