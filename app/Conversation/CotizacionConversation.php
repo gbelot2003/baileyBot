@@ -21,7 +21,13 @@ class CotizacionConversation extends Conversation
         $this->say("{$this->firstName}, Bienvenido al sistema de cotizaciones");
         $this->bot->typesAndWaits(2);
         $this->ask("Si desea cotizar camas, presione 1, Sillas presione 2, Miselaneos 3", function (Answer $answer){
-            $this->bot->startConversation(new CotizacionCamasConversation($this->firstName));
+
+            $respuesta = $answer->getText();
+
+            if($respuesta === '1') {
+                $this->bot->startConversation(new CotizacionCamasConversation($this->firstName));
+            }
+
         });
     }
 

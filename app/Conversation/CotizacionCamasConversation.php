@@ -24,7 +24,9 @@ class CotizacionCamasConversation extends Conversation
     public function cotizarCamas()
     {
         $countCamas = Product::where("tag", 'LIKE', "%camas%")->count();
+        $this->bot->typesAndWaits(2);
         $this->say("Tenemos {$countCamas} tipos de camas a disposición en este momento");
+        $this->bot->typesAndWaits(2);
         $this->ask("¿A que correo electronico le enviamos su cotización?", function (Answer $answer){
 
             $validator = Validator::make(['email' => $answer->getText()], [
@@ -32,6 +34,7 @@ class CotizacionCamasConversation extends Conversation
             ]);
 
             if ($validator->fails()) {
+                $this->bot->typesAndWaits(2);
                 return $this->repeat('Ese no parece un correo valido, intente de nuevo');
             }
 
@@ -43,12 +46,15 @@ class CotizacionCamasConversation extends Conversation
 
     public function confirmarCorreo()
     {
+        $this->bot->typesAndWaits(2);
         $this->ask("¿Te enviamos un listado por correo?, presiona 1 para confirmar", function (Answer $answer){
             $respuesta = $answer->getText();
             if($respuesta == 1){
                 $this->sendCotizacionCama();
             } else {
+                $this->bot->typesAndWaits(2);
                 $this->say("Se ha detenido el proceso, consulanos cualquier otra pregunta!!!");
+                $this->bot->typesAndWaits(2);
                 $this->bot->startConversation(new ShowMenuConversation($this->firstName));
             }
         });
@@ -58,7 +64,9 @@ class CotizacionCamasConversation extends Conversation
     {
         $getCamas = Product::where("tag", 'LIKE', "%camas%")->get();
         Mail::to($this->email)->send(new SendCotizacion($getCamas, $this->firstName));
+        $this->bot->typesAndWaits(2);
         $this->say("Se ha enviado el listado de productos a tu correo");
+        $this->bot->typesAndWaits(2);
         $this->say("Cualquier otra pregunta estamos para servirte...");
         $this->bot->startConversation(new ShowMenuConversation($this->firstName));
     }
