@@ -42,7 +42,9 @@ class DetalleProductosConversation extends Conversation
         $this->ask("¿Enviamos la cotización de este producto por correo? <strong>marque 1</strong> o regresamos al Menu Principal, <strong>marque 2</strong>", function (Answer $answer){
             $respuesta = $answer->getText();
             if($respuesta == 1) {
-                Mail::to($this->email)->send(new SendCotizacion($this->item, $this->firstName));
+                $items = [];
+                array_push($items, $this->item);
+                Mail::to($this->email)->send(new SendCotizacion($items, $this->firstName));
                 $this->bot->typesAndWaits(2);
                 $this->say("Se ha enviado el listado de productos a tu correo");
                 $this->bot->typesAndWaits(2);
