@@ -22,12 +22,12 @@ class CotizacionConversation extends Conversation
         $this->bot->typesAndWaits(2);
         $this->say("Puede <strong>introducir el nombre del producto</strong> que esta buscando.");
         $this->bot->typesAndWaits(2);
-        $this->say('Puede ingresar 1 para cotizar las <strong>Camas</strong> displonibles.');
-        $this->bot->typesAndWaits(2);
-        $this->say('Puede ingresar 2 para cotizar las <strong>Sillas</strong> disponibles.');
-        $this->bot->typesAndWaits(2);
-        $this->say('Puede ingresar 3 para cotizar productos <strong>miselaneos disponibles</strong>.');
-        $this->bot->typesAndWaits(2);
+        // $this->say('Puede ingresar 1 para cotizar las <strong>Camas</strong> displonibles.');
+        // $this->bot->typesAndWaits(2);
+        // $this->say('Puede ingresar 2 para cotizar las <strong>Sillas</strong> disponibles.');
+        // $this->bot->typesAndWaits(2);
+        // $this->say('Puede ingresar 3 para cotizar productos <strong>miselaneos disponibles</strong>.');
+        // $this->bot->typesAndWaits(2);
         $this->ask("Tambien puede presionar 4 para regresar al menu principal:", function (Answer $answer){
 
             $respuesta = $answer->getText();

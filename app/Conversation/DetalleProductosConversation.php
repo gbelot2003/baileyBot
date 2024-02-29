@@ -23,12 +23,15 @@ class DetalleProductosConversation extends Conversation
 
     protected function verDetalleProducto()
     {
+        $this->say("Información de {$this->item->name}");
+
         $attachment = new Image($this->item->image_url);
         $message = OutgoingMessage::create("{$this->item->name} - código <strong>{$this->item->id}</strong>")
                         ->withAttachment($attachment);
         $this->bot->reply($message);
-        $this->say($this->item->description);
+        // $this->say($this->item->description);
         $this->say($this->item->price);
+        // $this->envioPorEmail();
         $this->envioPorEmail();
     }
 

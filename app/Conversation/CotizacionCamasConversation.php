@@ -64,14 +64,18 @@ class CotizacionCamasConversation extends Conversation
     protected function verDetalles()
     {
         $this->ask("Si desea el detalle de algun producto, marque el <strong>numero de Código</strong>, si no escriba <strong>menu</strong> para regresar al menu principal.", function (Answer $answer){
+
             $respuesta = $answer->getText();
 
-            if($respuesta == "menu"){
+            if($respuesta === "menu"){
                 $this->bot->startConversation(new ShowMenuConversation($this->firstName));
             }
 
             $id = (int) $respuesta;
+            //\Log::info($id);
             $item = $this->productos->findOrFail($id);
+            //\Log::info($item);
+
             $this->bot->startConversation(new DetalleProductosConversation($this->firstName, $item));
         });
     }
