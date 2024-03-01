@@ -19,8 +19,8 @@ class CotizacionConversation extends Conversation
     public function initCotizacion()
     {
         $this->say("{$this->firstName}, Bienvenido al sistema de cotizaciones");
-        $this->bot->typesAndWaits(2);
-        $this->say("Puede <strong>introducir el nombre del producto</strong> que esta buscando.");
+        // $this->bot->typesAndWaits(2);
+        // $this->say("Puede <strong>introducir el nombre del producto</strong> que esta buscando.");
         $this->bot->typesAndWaits(2);
         $this->say('Puede ingresar 1 para cotizar las <strong>Camas</strong> displonibles.');
         $this->bot->typesAndWaits(2);
