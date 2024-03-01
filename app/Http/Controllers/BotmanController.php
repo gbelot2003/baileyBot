@@ -28,7 +28,7 @@ class BotmanController extends Controller
 
         DriverManager::loadDriver(WebDriver::class);
 
-        $botman->hears('{message}', function($bot, $message) {
+        $botman->hears('Hola vendedor', function($bot, $message) {
             $bot->typesAndWaits(2);
             $bot->reply('Benvenido a nuestro sistema de atención');
             $bot->typesAndWaits(2);
