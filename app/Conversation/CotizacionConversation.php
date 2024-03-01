@@ -40,6 +40,10 @@ class CotizacionConversation extends Conversation
                 $this->bot->startConversation(new CotizacionSillasConversation($this->firstName));
             }
 
+            if($respuesta === '3') {
+                $this->bot->startConversation(new CotizarMiselaneosConversation($this->firstName));
+            }
+
             if($respuesta === '4') {
                 $this->bot->startConversation(new ShowMenuConversation($this->firstName));
             }

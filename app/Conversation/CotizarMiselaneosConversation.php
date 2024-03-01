@@ -12,7 +12,7 @@ use BotMan\BotMan\Messages\Outgoing\OutgoingMessage;
 use BotMan\BotMan\Messages\Conversations\Conversation;
 
 
-class CotizacionSillasConversation extends Conversation
+class CotizarMiselaneosConversation extends Conversation
 {
 
     protected $firstName;
@@ -27,8 +27,8 @@ class CotizacionSillasConversation extends Conversation
 
     public function cotizar()
     {
-        $countCamas = $this->productos->where("tag", 'LIKE', "%sillas%")->count();
-        $itemsCamas = $this->productos->where("tag", "LIKE", "%sillas%")->get();
+        $countCamas = $this->productos->where("tag", 'LIKE', "%miselaneos%")->count();
+        $itemsCamas = $this->productos->where("tag", "LIKE", "%miselaneos%")->get();
 
         $this->bot->typesAndWaits(2);
         $this->say("Tenemos {$countCamas} tipos de camas a disposición en este momento");
