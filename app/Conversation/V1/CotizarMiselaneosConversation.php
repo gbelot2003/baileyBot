@@ -33,7 +33,7 @@ class CotizarMiselaneosConversation extends Conversation
         $this->bot->typesAndWaits(2);
         $this->say("Tenemos {$countCamas} tipos de camas a disposición en este momento");
         $this->bot->typesAndWaits(2);
-        $this->ask('Si desea le puedo mostrar las camas disponibles para ello, <strong>marque 1</strong> o le puedo enviar por correo electrónico la cotización, para esto <strong>marque 2</strong>', function (Answer $answer) use ($itemsCamas){
+        $this->ask('Si desea le puedo mostrar los productos disponibles para ello, <strong>marque 1</strong> o le puedo enviar por correo electrónico la cotización, para esto <strong>marque 2</strong>', function (Answer $answer) use ($itemsCamas){
             $respuesta = $answer->getText();
             if($respuesta == '1'){
                 $this->listarProductos($itemsCamas);
@@ -120,6 +120,7 @@ class CotizarMiselaneosConversation extends Conversation
         $this->say("Se ha enviado el listado de productos a tu correo");
         $this->bot->typesAndWaits(2);
         $this->say("Cualquier otra pregunta estamos para servirte...");
+        $this->bot->typesAndWaits(2);
         $this->bot->startConversation(new ShowMenuConversation($this->firstName));
     }
 

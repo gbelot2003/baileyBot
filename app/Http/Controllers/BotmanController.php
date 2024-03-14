@@ -7,7 +7,7 @@ use BotMan\BotMan\BotManFactory;
 use BotMan\Drivers\Web\WebDriver;
 use BotMan\BotMan\Cache\LaravelCache;
 use BotMan\BotMan\Drivers\DriverManager;
-use App\Conversation\OnbordingConversation;
+use App\Conversation\V2\OnbordingConversation;
 
 
 
@@ -29,9 +29,6 @@ class BotmanController extends Controller
         DriverManager::loadDriver(WebDriver::class);
 
         $botman->hears('{message}', function($bot, $message) {
-            $bot->typesAndWaits(2);
-            $bot->reply('Benvenido a nuestro sistema de atención');
-            $bot->typesAndWaits(2);
             $bot->startConversation(new OnbordingConversation());
         });
 
