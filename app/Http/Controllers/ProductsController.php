@@ -42,17 +42,18 @@ class ProductsController extends Controller
         return View("products.edit", ["product"=> $product]);
     }
 
-    public function update(Request $request, Product $products)
+    public function update(Request $request, $id)
     {
-        $request->validate([
+        $products = Product::find($id);
+
+        $products->update($request->validate([
             'name' => 'required',
             'tag' => Rule::in(['camas', 'sillas', 'miselaneos']),
             'description' => 'required',
             'price' => 'required',
             'image_url' => 'required'
-        ]);
+        ]));
 
-        $products->update($request->all());
         return redirect(route('products.index'))->with('success','success');
     }
 

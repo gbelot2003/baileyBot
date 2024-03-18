@@ -13,7 +13,7 @@
 
 <div class="form-group">
     <label for="name">Descrición</label>
-    {{ Form::textarea('descricion', null, ['class' => 'form-control']) }}
+    {{ Form::textarea('description', null, ['class' => 'form-control']) }}
 </div>
 <br>
 <div class="form-group">
