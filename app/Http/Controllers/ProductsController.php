@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Contracts\View\View;
 
 class ProductsController extends Controller
 {
@@ -35,14 +37,23 @@ class ProductsController extends Controller
 
     }
 
-    public function edit(Product $products)
+    public function edit(Product $product)
     {
-
+        return View("products.edit", ["product"=> $product]);
     }
 
     public function update(Request $request, Product $products)
     {
+        $request->validate([
+            'name' => 'required',
+            'tag' => Rule::in(['camas', 'sillas', 'miselaneos']),
+            'description' => 'required',
+            'price' => 'required',
+            'image_url' => 'required'
+        ]);
 
+        $products->update($request->all());
+        return redirect(route('products.index'))->with('success','success');
     }
 
 }
