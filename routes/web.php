@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,3 +23,7 @@ Route::match(['get', 'post'], '/botman', 'App\Http\Controllers\BotmanController@
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::middleware("auth")->group(function () {
+    Route::resource('products', ProductsController::class);
+});
