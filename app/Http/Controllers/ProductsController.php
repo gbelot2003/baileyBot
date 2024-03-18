@@ -16,7 +16,8 @@ class ProductsController extends Controller
 
     public function index()
     {
-        return View("products.index");
+        $products = $this->products->orderBy("id","desc")->paginate(10);
+        return View("products.index", ["products"=> $products]);
     }
 
     public function show($id)
