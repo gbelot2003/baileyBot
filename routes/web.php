@@ -18,3 +18,7 @@ Route::get('/', function () {
 });
 
 Route::match(['get', 'post'], '/botman', 'App\Http\Controllers\BotmanController@handle')->middleware('api');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

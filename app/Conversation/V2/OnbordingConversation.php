@@ -42,7 +42,7 @@ class OnbordingConversation extends Conversation
 
     public function askForEmail()
     {
-        $this->ask('Tu correo electrónico por favor!!', function(Answer $answer) {
+        $this->ask('un correo electrónico al cual contactarte por favor!!', function(Answer $answer) {
             $validator = Validator::make(['email' => $answer->getText()], [
                 'email' => 'required|email',
             ]);
