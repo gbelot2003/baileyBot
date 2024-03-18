@@ -29,12 +29,21 @@ class ProductsController extends Controller
 
     public function create()
     {
-
+        return View("products.create");
     }
 
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'name' => 'required',
+            'tag' => Rule::in(['camas', 'sillas', 'miselaneos']),
+            'description' => 'required',
+            'price' => 'required',
+            'image_url' => 'required'
+        ]);
 
+        $this->products->create($request->all());
+        return redirect(route('products.index'))->with('success','success');
     }
 
     public function edit(Product $product)

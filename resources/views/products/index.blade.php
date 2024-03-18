@@ -8,6 +8,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Listado de Productos</h5>
                     <div class="card-text">
+                        <a href="{{ route('products.create') }}">Crear Producto</a>
                         <table class="table table-hover table-color">
                             <thead>
                                 <th>ID</th>

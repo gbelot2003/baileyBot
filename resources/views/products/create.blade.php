@@ -8,7 +8,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Crear Producto</h5>
                     <div class="card-text">
-                        {{ Form::open(['route' => ['products.update', $product->id], ]) }}
+                        {{ Form::open(['route' => 'products.store']) }}
                             @include('products._form')
                         {{ Form::close() }}
                     </div>
