@@ -9,7 +9,7 @@
                     <h5 class="card-title">{{ $product->name }}</h5>
                     <div class="card-text">
                         {{ Form::model($product, ['method' => 'PUT', 'route' => ['products.update', $product->id], ]) }}
-                            @include('products._form')
+                            @include('products._form', ['name' => 'Actualizar'])
                         {{ Form::close() }}
                     </div>
                 </div>

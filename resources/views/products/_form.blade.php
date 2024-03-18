@@ -30,5 +30,5 @@
 <div class="form-group">
     <a href="{{ route('products.index') }}" class="btn btn-warning">Cancelar</a>
 
-    <button type="submit" class="btn btn-primary">Actualizar</button>
+    <button type="submit" class="btn btn-primary">{{ $name }}</button>
 </div>
