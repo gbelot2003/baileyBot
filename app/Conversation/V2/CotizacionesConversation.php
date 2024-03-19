@@ -3,7 +3,6 @@
 namespace App\Conversation\V2;
 
 use App\Models\Product;
-use App\Conversation\V2\ShowMenuConversation;
 use BotMan\BotMan\Messages\Incoming\Answer;
 use BotMan\BotMan\Messages\Conversations\Conversation;
 
@@ -12,6 +11,7 @@ class CotizacionesConversation extends Conversation
 {
     protected $info;
     protected $products;
+
 
     public function __construct($info) {
         $this->info = $info;
@@ -33,23 +33,36 @@ class CotizacionesConversation extends Conversation
 
             $respuesta = $answer->getText();
 
-            if($respuesta === '1') {
-                $this->bot->startConversation(new CotizacionCamasConversation($this->info));
+            if($respuesta == 1){
+                $valor = 'camas';
+            } elseif($respuesta == 2){
+                $valor = 'sillas';
+            } elseif($respuesta == 3){
+                $valor = 'miselaneos';
+            } elseif($respuesta == 4){
+                $this->showMenu($this->info);
+            } else {
+                $this->bot->typesAndWaits(2);
+                return $this->repeat('Esta no parece una valida, intente de nuevo');
             }
 
-            if($respuesta === '2') {
-                $this->bot->startConversation(new CotizacionSillasConversation($this->$this->info('Message');));
-            }
-
-            if($respuesta === '3') {
-                $this->bot->startConversation(new CotizarMiselaneosConversation($this->info));
-            }
-
-            if($respuesta === '4') {
-                $this->bot->startConversation(new ShowMenuConversation($this->info));
-            }
+            $this->getResults($valor);
 
         });
+    }
+
+
+    protected function getResults($value)
+    {
+        $products = $this->products->where('tag', 'like', "%{$value}%")->get();
+        $count = $products->count();
+        $this->bot->typesAndWaits(2);
+        $this->say("Quieres cotizar nuestras <strong>{$value}</strong>, tenemos {$count} a disposición.");
+    }
+
+    protected function showMenu($info)
+    {
+        $this->bot->startConversation(new ShowMenuConverstation($info));
     }
 
     public function run()
