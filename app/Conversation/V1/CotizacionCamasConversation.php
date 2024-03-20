@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Conversation;
+namespace App\Conversation\V1;
 
 use Log;
 use App\Models\Product;

@@ -5,7 +5,6 @@ namespace App\Conversation\V2;
 use App\Models\Product;
 use App\Mail\SendCotizacion;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Validator;
 use BotMan\BotMan\Messages\Incoming\Answer;
 use BotMan\BotMan\Messages\Attachments\Image;
 use BotMan\BotMan\Messages\Outgoing\OutgoingMessage;
@@ -28,11 +27,11 @@ class CotizacionesConversation extends Conversation
 
         $this->say("<strong>{$this->info['name']}</strong>, Bienvenido al </strong>Sistema de Cotizaciones</strong>");
         $this->bot->typesAndWaits(2);
-        $this->say('Puede ingresar 1 para cotizar las <strong>Camas</strong> displonibles.');
+        $this->say("Puede ingresar 1 para cotizar las <strong>Camas</strong> displonibles.");
         $this->bot->typesAndWaits(2);
-        $this->say('Puede ingresar 2 para cotizar las <strong>Sillas</strong> displonibles.');
+        $this->say("Puede ingresar 2 para cotizar las <strong>Sillas</strong> displonibles.");
         $this->bot->typesAndWaits(2);
-        $this->say('Puede ingresar 3 para cotizar las <strong>Miselaneos</strong> displonibles.');
+        $this->say("Puede ingresar 3 para cotizar las <strong>Miselaneos</strong> displonibles.");
         $this->bot->typesAndWaits(2);
         $this->ask("Tambien puede presionar 4 para regresar al menu principal:", function (Answer $answer){
 
