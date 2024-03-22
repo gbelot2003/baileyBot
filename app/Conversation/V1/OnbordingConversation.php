@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Conversation;
+namespace App\Conversation\V1;
 
 use Illuminate\Support\Facades\Validator;
 use BotMan\BotMan\Messages\Incoming\Answer;

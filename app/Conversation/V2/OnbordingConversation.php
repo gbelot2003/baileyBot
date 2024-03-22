@@ -22,9 +22,7 @@ class OnbordingConversation extends Conversation
 
     public function askForName()
     {
-        $this->say('Para una mejor tu experiencia, podrias facilitarnos la siguiente información!!');
-        $this->bot->typesAndWaits(2);
-        $this->ask(' ¿Podrias escribir tu nombre? Por favor!!', function(Answer $answer) {
+        $this->ask(' Para una mejor tu experiencia, podrias facilitarnos la siguiente información, ¿Podrias escribir tu nombre? Por favor!!', function(Answer $answer) {
             $validator = Validator::make(['name' => $answer->getText()], [
                 'name' => 'required|string',
             ]);
@@ -42,7 +40,7 @@ class OnbordingConversation extends Conversation
 
     public function askForEmail()
     {
-        $this->ask('Tu correo electrónico por favor!!', function(Answer $answer) {
+        $this->ask('un correo electrónico al cual contactarte por favor!!', function(Answer $answer) {
             $validator = Validator::make(['email' => $answer->getText()], [
                 'email' => 'required|email',
             ]);

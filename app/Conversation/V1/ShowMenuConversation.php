@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Conversation;
+namespace App\Conversation\V1;
 
 use BotMan\BotMan\Messages\Incoming\Answer;
 use BotMan\BotMan\Messages\Conversations\Conversation;
@@ -18,7 +18,7 @@ class ShowMenuConversation extends Conversation
     public function showMenu()
     {
         $this->bot->typesAndWaits(2);
-        $this->say("<strong>INICIO DE MENU PRINCIPAL</strong>");
+        $this->say("<strong>MENU PRINCIPAL</strong>");
         $this->bot->typesAndWaits(2);
         $this->ask("Presiona <strong>1</strong> para <strong>Cotizaciones</strong>", function(Answer $answer) {
             $seleccion = $answer->getText();
