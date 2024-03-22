@@ -25,29 +25,32 @@ class CotizacionesConversation extends Conversation
 
     public function iniciarCotizaciones() {
 
-        $this->say("<strong>{$this->info['name']}</strong>, Bienvenido al </strong>Sistema de Cotizaciones</strong>");
-        $this->bot->typesAndWaits(2);
-        $this->say("Puede ingresar 1 para cotizar las <strong>Camas</strong> displonibles.");
-        $this->bot->typesAndWaits(2);
-        $this->say("Puede ingresar 2 para cotizar las <strong>Sillas</strong> displonibles.");
-        $this->bot->typesAndWaits(2);
-        $this->say("Puede ingresar 3 para cotizar las <strong>Miselaneos</strong> displonibles.");
-        $this->bot->typesAndWaits(2);
-        $this->ask("Tambien puede presionar 4 para regresar al menu principal:", function (Answer $answer){
+        $message = "Puede ingresar *1* para cotizar las *Camas*," . PHP_EOL;
+        $message .= "*2* para cotizar las *Sillas* " . PHP_EOL;
+        $message .= "y *3* para cotizar las *Miselaneos* displonibles.";
 
-            $respuesta = $answer->getText();
+        $this->say("*{$this->info['name']}*, Bienvenido al *Sistema de Cotizaciones*");
+        $this->bot->typesAndWaits(2);
+        $this->say($message);
+        $this->bot->typesAndWaits(2);
+        $this->ask("Tambien puede presionar *4* para regresar al menu principal:", function (Answer $answer){
+
+            $respuesta = (int) $answer->getText();
 
             if($respuesta == 1){
                 $valor = 'camas';
-            } elseif($respuesta == 2){
+            }
+
+            if($respuesta == 2){
                 $valor = 'sillas';
-            } elseif($respuesta == 3){
+            }
+
+            if($respuesta == 3){
                 $valor = 'miselaneos';
-            } elseif($respuesta == 4){
-                $this->showMenu($this->info);
-            } else {
-                $this->bot->typesAndWaits(2);
-                return $this->repeat('Esta no parece una valida, intente de nuevo');
+            }
+
+            if($respuesta == 4){
+                $this->bot->startConversation(new ShowMenuConverstation($this->info));
             }
 
             $this->getResults($valor);
@@ -61,14 +64,14 @@ class CotizacionesConversation extends Conversation
         $products = $this->products->where('tag', 'like', "%{$value}%")->get();
         $count = $products->count();
         $this->bot->typesAndWaits(2);
-        $this->say("Quieres cotizar nuestras <strong>{$value}</strong>, tenemos {$count} a disposición.");
+        $this->say("Quieres cotizar nuestras *{$value}*, tenemos {$count} a disposición.");
         $this->bot->typesAndWaits(2);
         $this->listItems($products);
     }
 
     protected function getDetails()
     {
-        $this->ask("Si desea mas detalle de algun producto, marque el <strong>numero de Código</strong> se enviara un correo electrónico con las especificaciones, si no escriba <strong>0</strong> para regresar al menu principal.", function (Answer $answer){
+        $this->ask("Si desea mas detalle de algun producto, marque el *numero de Código* se enviara un correo electrónico con las especificaciones, si no escriba *0* para regresar al menu principal.", function (Answer $answer){
 
             $respuesta = $answer->getText();
 
@@ -76,10 +79,12 @@ class CotizacionesConversation extends Conversation
 
             if($id === 0){
                 $this->showMenu($this->info);
+            } else {
+                $item = $this->products->where('id', '=', $id)->get();
+                $this->sendDetails($item);
             }
 
-            $item = $this->products->where('id', '=', $id)->get();
-            $this->sendDetails($item);
+
         });
     }
 
@@ -88,19 +93,16 @@ class CotizacionesConversation extends Conversation
     {
         Mail::to($this->info['email'])->send(new SendCotizacion($item, $this->info['name']));
         $this->bot->typesAndWaits(2);
-        $this->say("Se ha enviado el listado de productos a tu correo");
-        $this->bot->typesAndWaits(2);
-        $this->say("Cualquier otra pregunta estamos para servirte...");
+        $this->say("Se ha enviado el listado de productos a tu correo, Cualquier otra pregunta estamos para servirte...");
         $this->bot->startConversation(new ShowMenuConverstation($this->info));
     }
 
     protected function listItems($items)
     {
         foreach($items as $item){
-            $this->bot->typesAndWaits(3);
+            $this->bot->typesAndWaits(2);
             $attachment = new Image($item->image_url);
-            $message = OutgoingMessage::create("{$item->name} - código <strong>{$item->id}</strong>")
-                ->withAttachment($attachment);
+            $message = OutgoingMessage::create("{$item->name} - código *{$item->id}*")->withAttachment($attachment);
 
             $this->bot->reply($message);
         }

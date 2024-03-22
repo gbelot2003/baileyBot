@@ -22,9 +22,7 @@ class OnbordingConversation extends Conversation
 
     public function askForName()
     {
-        $this->say('Para una mejor tu experiencia, podrias facilitarnos la siguiente información!!');
-        $this->bot->typesAndWaits(2);
-        $this->ask(' ¿Podrias escribir tu nombre? Por favor!!', function(Answer $answer) {
+        $this->ask(' Para una mejor tu experiencia, podrias facilitarnos la siguiente información, ¿Podrias escribir tu nombre? Por favor!!', function(Answer $answer) {
             $validator = Validator::make(['name' => $answer->getText()], [
                 'name' => 'required|string',
             ]);

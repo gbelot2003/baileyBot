@@ -20,11 +20,11 @@ class ShowMenuConverstation extends Conversation
     public function menu()
     {
         $this->bot->typesAndWaits(2);
-        $this->say("Bienvenido <strong>{$this->info['name']}</strong> 🙋‍♂️🙋‍♂️🙋‍♂️");
+        $this->say("Bienvenido *{$this->info['name']}* 🙋‍♂️🙋‍♂️🙋‍♂️");
         $this->bot->typesAndWaits(2);
-        $this->say("<strong>MENU PRINCIPAL</strong>");
+        $this->say("*MENU PRINCIPAL*");
         $this->bot->typesAndWaits(2);
-        $this->ask("Presiona <strong>1</strong> para <strong>Cotizaciones</strong>", function(Answer $answer) {
+        $this->ask("Presiona *1* para *Cotizaciones*", function(Answer $answer) {
             $seleccion = $answer->getText();
             if($seleccion === "1") {
                 $this->bot->typesAndWaits(2);
