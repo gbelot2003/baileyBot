@@ -15,6 +15,7 @@
         "laravel/ui": "^4.5",
         "laravelcollective/html": "^6.4",
         "orangehill/iseed": "^3.0",
+        "predis/predis": "^2.2",
         "symfony/cache": "^7.0"
     },
     "require-dev": {

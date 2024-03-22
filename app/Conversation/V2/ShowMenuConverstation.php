@@ -17,18 +17,22 @@ class ShowMenuConverstation extends Conversation
         $this->info = $info;
     }
 
-    public function menu()
+    protected function menu()
     {
         $this->bot->typesAndWaits(2);
         $this->say("Bienvenido *{$this->info['name']}* 🙋‍♂️🙋‍♂️🙋‍♂️");
         $this->bot->typesAndWaits(2);
         $this->say("*MENU PRINCIPAL*");
         $this->bot->typesAndWaits(2);
-        $this->ask("Presiona *1* para *Cotizaciones*", function(Answer $answer) {
+        $this->ask("Escriba *1* para *Cotizaciones* y *2* para *Busqueda por Nombre*", function(Answer $answer) {
             $seleccion = $answer->getText();
             if($seleccion === "1") {
                 $this->bot->typesAndWaits(2);
                 $this->bot->startConversation(new CotizacionesConversation($this->info));
+            }
+            if($seleccion === "2") {
+                $this->bot->typesAndWaits(2);
+                $this->bot->startConversation(new BusquedaPorNombreConversation($this->info));
             }
         });
     }
