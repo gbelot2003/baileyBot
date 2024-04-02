@@ -29,10 +29,11 @@ class ShowMenuConverstation extends Conversation
             if($seleccion === "1") {
                 $this->bot->typesAndWaits(2);
                 $this->bot->startConversation(new CotizacionesConversation($this->info));
-            }
-            if($seleccion === "2") {
+            } elseif($seleccion === "2") {
                 $this->bot->typesAndWaits(2);
                 $this->bot->startConversation(new BusquedaPorNombreConversation($this->info));
+            } else {
+                $this->repeat("Esa opción no se encuentra registrada. Escriba *1* para *Cotizaciones* y *2* para *Busqueda por Nombre*");
             }
         });
     }

@@ -25,7 +25,9 @@ class BusquedaPorNombreConversation extends Conversation
         $this->ask("Ingrese la palabra clave con la que desea hacer la busqueda.", function (Answer $answer){
             $seleccion = $answer->getText();
 
-            $items = Product::where("name","like","%{$seleccion}%")->get();
+            $items = Product::where("name","LIKE","%{$seleccion}%")
+            ->orWhere('tag', 'LIKE', "%{$seleccion}%")
+            ->get();
             $count = $items->count();
             if( $count > 0){
                 $this->printResults($items);
@@ -46,14 +48,18 @@ class BusquedaPorNombreConversation extends Conversation
 
         $this->ask("Puedo enviar por correo electrónico la cotización, para esto *marque 1*", function(Answer $answer) use ($items){
             $respuesta = $answer->getText();
+
             if($respuesta == '1'){
-                \Log::info($this->info);
                 $this->say("Perfecto, te envio la cotización a su correo *{$this->info['email']}*");
                 $this->bot->typesAndWaits(2);
                 Mail::to($this->info['email'])->send(new SendCotizacion($items, $this->info['name']));
                 $this->say("Se ha enviado el listado de productos a tu correo");
                 $this->bot->typesAndWaits(2);
                 $this->say("Cualquier otra pregunta estamos para servirte...");
+                $this->bot->typesAndWaits(2);
+                $this->bot->startConversation(new ShowMenuConverstation($this->info));
+            } else {
+                $this->say("No se enviara ninguna información, espero que la información te sea útil");
                 $this->bot->typesAndWaits(2);
                 $this->bot->startConversation(new ShowMenuConverstation($this->info));
             }

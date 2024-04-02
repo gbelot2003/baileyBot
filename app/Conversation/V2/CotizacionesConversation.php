@@ -39,22 +39,23 @@ class CotizacionesConversation extends Conversation
 
             if($respuesta == 1){
                 $valor = 'camas';
-            }
-
-            if($respuesta == 2){
+                $this->getResults($valor);
+            } elseif($respuesta == 2){
                 $valor = 'sillas';
-            }
-
-            if($respuesta == 3){
+                $this->getResults($valor);
+            } elseif($respuesta == 3){
                 $valor = 'miselaneos';
-            }
-
-            if($respuesta == 4){
+                $this->getResults($valor);
+            } elseif ($respuesta == 4){
                 $this->bot->startConversation(new ShowMenuConverstation($this->info));
+            } else {
+                $message = "Esa opción no se encuentra registrada.";
+                $message .= "Puede ingresar *1* para cotizar las *Camas*," . PHP_EOL;
+                $message .= "*2* para cotizar las *Sillas* " . PHP_EOL;
+                $message .= "y *3* para cotizar las *Miselaneos* displonibles.";
+
+                $this->repeat($message);
             }
-
-            $this->getResults($valor);
-
         });
     }
 
